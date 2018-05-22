@@ -17,8 +17,8 @@ char maze[ROWS][COLUMNS] = { //the maze for pacman
 {'#','#','#','#','#','#','.','#','#','#','#','#',' ','#','#',' ','#','#','#','#','#','.','#','#','#','#','#','#'},
 {' ',' ',' ',' ',' ','#','.','#','#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#','#','.','#',' ',' ',' ',' ',' '},
 {' ',' ',' ',' ',' ','#','.','#','#',' ','#','#','#','-','-','#','#','#',' ','#','#','.','#',' ',' ',' ',' ',' '},
-{'#','#','#','#','#','#','.','#','#',' ','#',' ',' ','M','M',' ',' ','#',' ','#','#','.','#','#','#','#','#','#'},
-{' ',' ',' ',' ',' ',' ','.',' ',' ',' ','#',' ',' ','M','M',' ',' ','#',' ',' ',' ','.',' ',' ',' ',' ',' ',' '},
+{'#','#','#','#','#','#','.','#','#',' ','#',' ',' ','M',' ',' ',' ','#',' ','#','#','.','#','#','#','#','#','#'},
+{' ',' ',' ',' ',' ',' ','.',' ',' ',' ','#',' ',' ',' ',' ',' ',' ','#',' ',' ',' ','.',' ',' ',' ',' ',' ',' '},
 {'#','#','#','#','#','#','.','#','#',' ','#',' ',' ',' ',' ',' ',' ','#',' ','#','#','.','#','#','#','#','#','#'},
 {' ',' ',' ',' ',' ','#','.','#','#',' ','#','#','#','#','#','#','#','#',' ','#','#','.','#',' ',' ',' ',' ',' '},
 {' ',' ',' ',' ',' ','#','.','#','#',' ',' ',' ',' ','<',' ',' ',' ',' ',' ','#','#','.','#',' ',' ',' ',' ',' '},
@@ -37,8 +37,10 @@ int main()
 {	
 	WINDOW *scoreboard;	//window to display scoreboard
 	WINDOW *title;	//window to display the title of the scoreboard
+	
 	int pacmany = 14, pacmanx = 13; //defines the initial position of the pacman
 	int ghosty = 10, ghostx = 13;  //defines the initial position of the ghost
+	char prev = ' ';
 	int height = 7, width = 20;	//height and width for scoreboard window
 	int scoreboardy = 3, scoreboardx = 40; //x and y coordinates for the location of the scoreboard
 	int titley = 1, titlex = 40; //title located on top of the scoreboard
@@ -227,53 +229,61 @@ int main()
 			switch(randghost){
 									
 				case 0:
-				{
+				{	//move left
 					if(maze[ghosty][ghostx-1] == '#')
 					{
-						maze[pacmany][pacmanx] = ' ';  //if there is no wall, it keeps on moving down
-						mvaddch(pacmany,pacmanx,' ');
-						pacmany++;
-						mvaddch(pacmany, pacmanx, ACS_UARROW);
-						move(pacmany, pacmanx);
+						maze[ghosty][ghostx] = prev;  //if there is no wall, it keeps on moving down
+						mvaddch(ghosty,ghostx,prev);
+						ghostx--;
+						prev = maze[ghosty][ghostx];
+						maze[ghosty][ghostx] = 'M';
+						mvaddch(ghosty, ghostx, 'M');
+						move(ghosty, ghostx);
 						refresh();
 					}
 				}
 									
 				case 1:
-				{
+				{	//move right
 					if(maze[ghosty][ghostx+1] == '#')
 					{
-						maze[pacmany][pacmanx] = ' ';  //if there is no wall, it keeps on moving down
-						mvaddch(pacmany,pacmanx,' ');
-						pacmany++;
-						mvaddch(pacmany, pacmanx, ACS_UARROW);
-						move(pacmany, pacmanx);
+						maze[ghosty][ghostx] = prev;  //if there is no wall, it keeps on moving down
+						mvaddch(ghosty,ghostx,prev);
+						ghostx--;
+						prev = maze[ghosty][ghostx];
+						maze[ghosty][ghostx] = 'M';
+						mvaddch(ghosty, ghostx, 'M');
+						move(ghosty, ghostx);
 						refresh();
 					}
 				}
 									
 				case 2:
-				{
+				{	//move up
 					if(maze[ghosty-1][ghostx] == '#')
 					{
-						maze[pacmany][pacmanx] = ' ';  //if there is no wall, it keeps on moving down
-						mvaddch(pacmany,pacmanx,' ');
-						pacmany++;
-						mvaddch(pacmany, pacmanx, ACS_UARROW);
-						move(pacmany, pacmanx);
+						maze[ghosty][ghostx] = prev;  //if there is no wall, it keeps on moving down
+						mvaddch(ghosty,ghostx,prev);
+						ghostx--;
+						prev = maze[ghosty][ghostx];
+						maze[ghosty][ghostx] = 'M';
+						mvaddch(ghosty, ghostx, 'M');
+						move(ghosty, ghostx);
 						refresh();
 					}
 				}
 									
 				case 3:
-				{
+				{	//move down
 					if(maze[ghosty+1][ghostx] == '#')
 					{
-						maze[pacmany][pacmanx] = ' ';  //if there is no wall, it keeps on moving down
-						mvaddch(pacmany,pacmanx,' ');
-						pacmany++;
-						mvaddch(pacmany, pacmanx, ACS_UARROW);
-						move(pacmany, pacmanx);
+						maze[ghosty][ghostx] = prev;  //if there is no wall, it keeps on moving down
+						mvaddch(ghosty,ghostx,prev);
+						ghostx--;
+						prev = maze[ghosty][ghostx];
+						maze[ghosty][ghostx] = 'M';
+						mvaddch(ghosty, ghostx, 'M');
+						move(ghosty, ghostx);
 						refresh();
 					}
 				}
