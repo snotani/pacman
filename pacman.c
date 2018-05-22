@@ -9,9 +9,11 @@
 
 int main(int argc, char *argv[])
 {	
-	////WINDOW *my_win;
+	WINDOW *scoreboard;
 	//WINDOW 
-	int pacmany= 14, pacmanx = 13;
+	int pacmany = 14, pacmanx = 13;
+	int height = 10, width = 20;
+	int scoreboardy = 0, scoreboardx = 50, score = 0;
 	int key;
 	
 	char maze[ROWS][COLUMNS] = {
@@ -43,9 +45,8 @@ int main(int argc, char *argv[])
 	
 
 	initscr();			/* Start curses mode 		  */
-	//my_win = newwin(height, width, starty, startx);
-	//cbreak();
-	//noecho();			// no keypresses
+	scoreboard = newwin(height, width, scoreboardy, scoreboardx);
+	box(scoreboard, 0, 0);
 	curs_set(FALSE);	// dont show cursor
 	keypad(stdscr, TRUE);
 	refresh();			/* Print it on to the real screen */
@@ -62,6 +63,11 @@ int main(int argc, char *argv[])
 	
 	while((key = getch()) != 'q')
 	{
+		if (key == KEY_LEFT || key == KEY_RIGHT || key == KEY_UP || key == KEY_DOWN){
+			mvwprintw(scoreboard, 1, 1, "Score = %d", score);
+			wrefresh(scoreboard);
+		}	
+			
 			
 		switch(key)
 		{
@@ -69,10 +75,10 @@ int main(int argc, char *argv[])
 					
 					if(maze[pacmany][pacmanx-1] != '#')
 					{
-						/*if(maze[pacmany][pacmanx-1] == '.')
+						if(maze[pacmany][pacmanx-1] == '.')
 						{
-							score++
-						}*/
+							score++;
+						}
 						
 						maze[pacmany][pacmanx] = ' ';
 						mvaddch(pacmany,pacmanx,' ');
@@ -87,10 +93,10 @@ int main(int argc, char *argv[])
 					
 					if(maze[pacmany][pacmanx+1] != '#')
 					{
-						/*if(maze[15][14-1] == '.')
+						if(maze[pacmany][pacmanx+1] == '.')
 						{
-							score++
-						}*/
+							score++;
+						}
 						
 						maze[pacmany][pacmanx] = ' ';
 						mvaddch(pacmany,pacmanx,' ');
@@ -105,10 +111,10 @@ int main(int argc, char *argv[])
 					
 					if(maze[pacmany-1][pacmanx] != '#')
 					{
-						/*if(maze[15][14-1] == '.')
+						if(maze[pacmany-1][pacmanx] == '.')
 						{
-							score++
-						}*/
+							score++;
+						}
 						
 						maze[pacmany][pacmanx] = ' ';
 						mvaddch(pacmany,pacmanx,' ');
@@ -121,12 +127,12 @@ int main(int argc, char *argv[])
 					
 			case KEY_DOWN:
 					
-					if(maze[pacmany+1][pacmanx] != '#')
+					if(maze[pacmany+1][pacmanx] != '#' && maze[pacmany+1][pacmanx] != '-')
 					{
-						/*if(maze[15][14-1] == '.')
+						if(maze[pacmany+1][pacmanx] == '.')
 						{
-							score++
-						}*/
+							score++;
+						}
 						
 						maze[pacmany][pacmanx] = ' ';
 						mvaddch(pacmany,pacmanx,' ');
