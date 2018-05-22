@@ -17,15 +17,15 @@ int main(int argc, char *argv[])
 
 	height = 48;
 	width = 100;
-	//starty = (LINES - height) / 2;	/* Calculating for a center placement */
-	//startx = (COLS - width) / 2;	/* of the window		*/
+	starty = (LINES - height) / 2;	/* Calculating for a center placement */
+	startx = (COLS - width) / 2;	/* of the window		*/
 	printw("Press F1 to exit");
 	refresh();
 	my_win = create_newwin(height, width, starty, startx);
 	attron(A_STANDOUT);
 
 	while((ch = getch()) != KEY_F(1))
-	{	/*switch(ch)
+	{	switch(ch)
 		{	case KEY_LEFT:
 				destroy_win(my_win);
 				my_win = create_newwin(height, width, starty,--startx);
