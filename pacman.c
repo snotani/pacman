@@ -93,7 +93,17 @@ int main(int argc, char *argv[])
 							score = score + 50; //adds 50 points for the power pill
 						}
 						
-						if(
+						if(maze[pacmany][pacmanx-1] == 'M')
+						{
+							lives--;
+							maze[pacmany][pacmanx] = ' ';
+							mvaddch(pacmany,pacmanx,' ');
+							pacmany = 14;
+							pacmanx = 13;
+							mvaddch(pacmany, pacmanx, '>');
+							move(pacmany, pacmanx);
+							refresh();
+						}
 						
 						maze[pacmany][pacmanx] = ' ';
 						mvaddch(pacmany,pacmanx,' ');
@@ -116,6 +126,18 @@ int main(int argc, char *argv[])
 						if(maze[pacmany][pacmanx+1] == 'O')
 						{
 							score = score + 50; //adds 50 points for the power pill
+						}
+						
+						if(maze[pacmany][pacmanx+1] == 'M')
+						{
+							lives--;
+							maze[pacmany][pacmanx] = ' ';
+							mvaddch(pacmany,pacmanx,' ');
+							pacmany = 14;
+							pacmanx = 13;
+							mvaddch(pacmany, pacmanx, '>');
+							move(pacmany, pacmanx);
+							refresh();
 						}
 						
 						maze[pacmany][pacmanx] = ' ';
@@ -141,6 +163,18 @@ int main(int argc, char *argv[])
 							score = score + 50; //adds 50 points for the power pill
 						}
 						
+						if(maze[pacmany-1][pacmanx] == 'M')
+						{
+							lives--;
+							maze[pacmany][pacmanx] = ' ';
+							mvaddch(pacmany,pacmanx,' ');
+							pacmany = 14;
+							pacmanx = 13;
+							mvaddch(pacmany, pacmanx, '>');
+							move(pacmany, pacmanx);
+							refresh();
+						}
+						
 						maze[pacmany][pacmanx] = ' ';
 						mvaddch(pacmany,pacmanx,' ');
 						pacmany--;
@@ -162,6 +196,18 @@ int main(int argc, char *argv[])
 						if(maze[pacmany+1][pacmanx] == 'O')
 						{
 							score = score + 50; //adds 50 points for the power pill
+						}
+						
+						if(maze[pacmany+1][pacmanx] == 'M')
+						{
+							lives--;
+							maze[pacmany][pacmanx] = ' ';
+							mvaddch(pacmany,pacmanx,' ');
+							pacmany = 14;
+							pacmanx = 13;
+							mvaddch(pacmany, pacmanx, '>');
+							move(pacmany, pacmanx);
+							refresh();
 						}
 						
 						maze[pacmany][pacmanx] = ' ';
