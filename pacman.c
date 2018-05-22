@@ -1,24 +1,12 @@
 #include <ncurses.h>
 #include <stdlib.h>
-#include <math.h>
+#include <time.h>
 #include <stdio.h>
 
 #define ROWS 25
 #define COLUMNS 29
 
-
-int main(int argc, char *argv[])
-{	
-	WINDOW *scoreboard;	
-	WINDOW *title;
-	int pacmany = 14, pacmanx = 13;
-	int height = 7, width = 15;
-	int scoreboardy = 3, scoreboardx = 40;
-	int titley = 1, titlex = 40;
-	int score = 0, level = 1, lives = 3;
-	int key;
-	
-	char maze[ROWS][COLUMNS] = {
+char maze[ROWS][COLUMNS] = {
 {'#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#'},
 {'#','.','.','.','.','.','.','.','.','.','.','.','.','#','#','.','.','.','.','.','.','.','.','.','.','.','.','#'},
 {'#','.','#','#','#','#','.','#','#','#','#','#','.','#','#','.','#','#','#','#','#','.','#','#','#','#','.','#'},
@@ -30,7 +18,7 @@ int main(int argc, char *argv[])
 {' ',' ',' ',' ',' ','#','.','#','#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#','#','.','#',' ',' ',' ',' ',' '},
 {' ',' ',' ',' ',' ','#','.','#','#',' ','#','#','#','-','-','#','#','#',' ','#','#','.','#',' ',' ',' ',' ',' '},
 {'#','#','#','#','#','#','.','#','#',' ','#',' ',' ','M','M',' ',' ','#',' ','#','#','.','#','#','#','#','#','#'},
-{' ',' ',' ',' ',' ',' ','.',' ',' ',' ','#',' ',' ','H','M',' ',' ','#',' ',' ',' ','.',' ',' ',' ',' ',' ',' '},
+{' ',' ',' ',' ',' ',' ','.',' ',' ',' ','#',' ',' ','M','M',' ',' ','#',' ',' ',' ','.',' ',' ',' ',' ',' ',' '},
 {'#','#','#','#','#','#','.','#','#',' ','#',' ',' ',' ',' ',' ',' ','#',' ','#','#','.','#','#','#','#','#','#'},
 {' ',' ',' ',' ',' ','#','.','#','#',' ','#','#','#','#','#','#','#','#',' ','#','#','.','#',' ',' ',' ',' ',' '},
 {' ',' ',' ',' ',' ','#','.','#','#',' ',' ',' ',' ','<',' ',' ',' ',' ',' ','#','#','.','#',' ',' ',' ',' ',' '},
@@ -44,8 +32,64 @@ int main(int argc, char *argv[])
 {'#','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','#'},
 {'#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#'},
 };
-	
 
+
+
+/*void ghostmover(int ghosty, int ghostx)
+{	
+	srand(time(NULL));
+	int randghost = rand() % 4;
+				
+	if(randghost == 0){
+		while(1){
+			if(maze[ghosty][ghostx-1] == '#')
+			{
+				ghostmover(ghosty, ghostx);
+			}
+		}
+	}
+				
+	if(randghost == 1){
+		while(1){
+			if(maze[ghosty][ghostx+1] == '#')
+			{
+				ghostmover(ghosty, ghostx);
+			}
+		}
+	}
+				
+	if(randghost == 2){
+		while(1){
+			if(maze[ghosty-1][ghostx] == '#')
+			{
+				ghostmover(ghosty, ghostx);
+			}
+		}
+	}
+				
+	if(randghost == 3){
+		while(1){
+			if(maze[ghosty+1][ghostx] == '#')
+			{
+				ghostmover(ghosty, ghostx);
+			}
+		}
+	}
+}*/
+
+
+int main()
+{	
+	WINDOW *scoreboard;	
+	WINDOW *title;
+	int pacmany = 14, pacmanx = 13;
+	int ghosty = 10, ghostx = 13; 
+	int height = 7, width = 20;
+	int scoreboardy = 3, scoreboardx = 40;
+	int titley = 1, titlex = 40;
+	int score = 0, level = 1, lives = 3;
+	int key;
+	
 	initscr();			/* Start curses mode 		  */
 	title = newwin(height, width, titley, titlex);
 	box(title, 0, 0);
@@ -75,7 +119,9 @@ int main(int argc, char *argv[])
 			mvwprintw(scoreboard, 3, 1, "Score = %d", score);
 			wrefresh(title);
 			wrefresh(scoreboard);
-		}	
+		
+			//ghostmover(ghosty, ghostx);
+		}
 				
 		switch(key)
 		{
@@ -226,6 +272,8 @@ int main(int argc, char *argv[])
 			mvwprintw(scoreboard, 4, 1, "Congratulations!");
 			mvwprintw(scoreboard, 5, 1, "Next level: %d", level);
 			wrefresh(scoreboard);
+			
+			main();
 		}
 		
 		if(lives < 1){
