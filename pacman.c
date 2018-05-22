@@ -63,9 +63,7 @@ int main(int argc, char *argv[])
 	
 	while((key = getch()) != 'q')
 	{
-		
-		
-		
+			
 		switch(key)
 		{
 			case KEY_LEFT:
