@@ -4,7 +4,7 @@
 #include <stdio.h>
 
 #define ROWS 25 //rows for the maze
-#define COLUMNS 29 //columns ffor the maze
+#define COLUMNS 29 //columns for the maze
 
 char maze[ROWS][COLUMNS] = { //the maze for pacman
 {'#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#'},
@@ -33,49 +33,6 @@ char maze[ROWS][COLUMNS] = { //the maze for pacman
 {'#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#'},
 };
 
-/*void ghostmover(int ghosty, int ghostx)
-{	
-	srand(time(NULL));
-	int randghost = rand() % 4;
-				
-	if(randghost == 0){
-		while(1){
-			if(maze[ghosty][ghostx-1] == '#')
-			{
-				ghostmover(ghosty, ghostx);
-			}
-		}
-	}
-				
-	if(randghost == 1){
-		while(1){
-			if(maze[ghosty][ghostx+1] == '#')
-			{
-				ghostmover(ghosty, ghostx);
-			}
-		}
-	}
-				
-	if(randghost == 2){
-		while(1){
-			if(maze[ghosty-1][ghostx] == '#')
-			{
-				ghostmover(ghosty, ghostx);
-			}
-		}
-	}
-				
-	if(randghost == 3){
-		while(1){
-			if(maze[ghosty+1][ghostx] == '#')
-			{
-				ghostmover(ghosty, ghostx);
-			}
-		}
-	}
-}*/
-
-
 int main()
 {	
 	WINDOW *scoreboard;	//window to display scoreboard
@@ -95,6 +52,7 @@ int main()
 	box(scoreboard, 0, 0); //sets the title at the start of the window scoreboard
 	curs_set(FALSE);	//dont show cursor
 	keypad(stdscr, TRUE); //allows to use the arrow keys
+	srand(time(NULL));
 	refresh();			//print it on to the real screen 
 
 	for(int i=0; i<ROWS; i++){ 	//nested loops for 2d maze
@@ -109,7 +67,6 @@ int main()
 	
 	while((key = getch()) != 'q') //key 'q' to quit the program
 	{
-		
 		if (key == KEY_LEFT || key == KEY_RIGHT || key == KEY_UP || key == KEY_DOWN){ //checks if any key es pressed (game starts)
 			mvwprintw(title, 1, 1, "SCOREBOARD");	//prints the title of the scoreboard
 			mvwprintw(scoreboard, 1, 1, "Level = %d", level); //shows the levels of the game in the scoreboard
@@ -117,8 +74,6 @@ int main()
 			mvwprintw(scoreboard, 3, 1, "Score = %d", score); //shows the score of the game in the scoreboard
 			wrefresh(title);
 			wrefresh(scoreboard);		//refresh the window and print on screen
-		
-			//ghostmover(ghosty, ghostx);
 		}
 				
 		switch(key)
@@ -219,7 +174,7 @@ int main()
 							refresh();
 						}
 						
-						maze[pacmany][pacmanx] = ' ';	////if there is no wall, it keeps on moving up
+						maze[pacmany][pacmanx] = ' ';	//if there is no wall, it keeps on moving up
 						mvaddch(pacmany,pacmanx,' ');
 						pacmany--;
 						mvaddch(pacmany, pacmanx, 'V');
@@ -265,13 +220,74 @@ int main()
 					
 		}
 		
+		for(int turn = 0; turn < 4; turn++){
+			
+		int randghost = rand() % 4;
+					
+			switch(randghost){
+									
+				case 0:
+				{
+					if(maze[ghosty][ghostx-1] == '#')
+					{
+						maze[pacmany][pacmanx] = ' ';  //if there is no wall, it keeps on moving down
+						mvaddch(pacmany,pacmanx,' ');
+						pacmany++;
+						mvaddch(pacmany, pacmanx, ACS_UARROW);
+						move(pacmany, pacmanx);
+						refresh();
+					}
+				}
+									
+				case 1:
+				{
+					if(maze[ghosty][ghostx+1] == '#')
+					{
+						maze[pacmany][pacmanx] = ' ';  //if there is no wall, it keeps on moving down
+						mvaddch(pacmany,pacmanx,' ');
+						pacmany++;
+						mvaddch(pacmany, pacmanx, ACS_UARROW);
+						move(pacmany, pacmanx);
+						refresh();
+					}
+				}
+									
+				case 2:
+				{
+					if(maze[ghosty-1][ghostx] == '#')
+					{
+						maze[pacmany][pacmanx] = ' ';  //if there is no wall, it keeps on moving down
+						mvaddch(pacmany,pacmanx,' ');
+						pacmany++;
+						mvaddch(pacmany, pacmanx, ACS_UARROW);
+						move(pacmany, pacmanx);
+						refresh();
+					}
+				}
+									
+				case 3:
+				{
+					if(maze[ghosty+1][ghostx] == '#')
+					{
+						maze[pacmany][pacmanx] = ' ';  //if there is no wall, it keeps on moving down
+						mvaddch(pacmany,pacmanx,' ');
+						pacmany++;
+						mvaddch(pacmany, pacmanx, ACS_UARROW);
+						move(pacmany, pacmanx);
+						refresh();
+					}
+				}
+			}
+		}
+		
+		
+		
 		if(score == 2300){  //if all the pills are eaten, game is won
 			level++;		//goes to next level
 			mvwprintw(scoreboard, 4, 1, "Congratulations!");
 			mvwprintw(scoreboard, 5, 1, "Next level: %d", level);
 			wrefresh(scoreboard);
-			
-			main();
+			//main();
 		}
 		
 		if(lives < 1){		//if lives are over, game over
