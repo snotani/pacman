@@ -9,11 +9,13 @@
 
 int main(int argc, char *argv[])
 {	
-	WINDOW *scoreboard;
-	//WINDOW 
+	WINDOW *scoreboard;	
+	WINDOW *title;
 	int pacmany = 14, pacmanx = 13;
-	int height = 10, width = 20;
-	int scoreboardy = 0, scoreboardx = 50, score = 0;
+	int height = 7, width = 15;
+	int scoreboardy = 3, scoreboardx = 40;
+	int titley = 1, titlex = 40;
+	int score = 0, level = 1, lives = 3;
 	int key;
 	
 	char maze[ROWS][COLUMNS] = {
@@ -27,9 +29,9 @@ int main(int argc, char *argv[])
 {'#','#','#','#','#','#','.','#','#','#','#','#',' ','#','#',' ','#','#','#','#','#','.','#','#','#','#','#','#'},
 {' ',' ',' ',' ',' ','#','.','#','#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#','#','.','#',' ',' ',' ',' ',' '},
 {' ',' ',' ',' ',' ','#','.','#','#',' ','#','#','#','-','-','#','#','#',' ','#','#','.','#',' ',' ',' ',' ',' '},
-{'#','#','#','#','#','#','.','#','#',' ','#',' ','H','H','H','H',' ','#',' ','#','#','.','#','#','#','#','#','#'},
-{' ',' ',' ',' ',' ',' ','.',' ',' ',' ','#',' ','H','H','H','H',' ','#',' ',' ',' ','.',' ',' ',' ',' ',' ',' '},
-{'#','#','#','#','#','#','.','#','#',' ','#',' ','H','H','H','H',' ','#',' ','#','#','.','#','#','#','#','#','#'},
+{'#','#','#','#','#','#','.','#','#',' ','#',' ',' ','M','M',' ',' ','#',' ','#','#','.','#','#','#','#','#','#'},
+{' ',' ',' ',' ',' ',' ','.',' ',' ',' ','#',' ',' ','H','M',' ',' ','#',' ',' ',' ','.',' ',' ',' ',' ',' ',' '},
+{'#','#','#','#','#','#','.','#','#',' ','#',' ',' ',' ',' ',' ',' ','#',' ','#','#','.','#','#','#','#','#','#'},
 {' ',' ',' ',' ',' ','#','.','#','#',' ','#','#','#','#','#','#','#','#',' ','#','#','.','#',' ',' ',' ',' ',' '},
 {' ',' ',' ',' ',' ','#','.','#','#',' ',' ',' ',' ','<',' ',' ',' ',' ',' ','#','#','.','#',' ',' ',' ',' ',' '},
 {'#','#','#','#','#','#','.','#','#',' ','#','#','#','#','#','#','#','#',' ','#','#','.','#','#','#','#','#','#'},
@@ -45,6 +47,8 @@ int main(int argc, char *argv[])
 	
 
 	initscr();			/* Start curses mode 		  */
+	title = newwin(height, width, titley, titlex);
+	box(title, 0, 0);
 	scoreboard = newwin(height, width, scoreboardy, scoreboardx);
 	box(scoreboard, 0, 0);
 	curs_set(FALSE);	// dont show cursor
@@ -65,8 +69,11 @@ int main(int argc, char *argv[])
 	{
 		
 		if (key == KEY_LEFT || key == KEY_RIGHT || key == KEY_UP || key == KEY_DOWN){
-			mvwprintw(scoreboard, 1, 1, "Score = %d", score);
-			mvwprintw(scoreboard, 1, 1, "Score = %d", score);
+			mvwprintw(title, 1, 1, "SCOREBOARD");
+			mvwprintw(scoreboard, 1, 1, "Level = %d", level);
+			mvwprintw(scoreboard, 2, 1, "Lives = %d", lives);
+			mvwprintw(scoreboard, 3, 1, "Score = %d", score);
+			wrefresh(title);
 			wrefresh(scoreboard);
 		}	
 				
@@ -86,6 +93,8 @@ int main(int argc, char *argv[])
 							score = score + 50; //adds 50 points for the power pill
 						}
 						
+						if(
+						
 						maze[pacmany][pacmanx] = ' ';
 						mvaddch(pacmany,pacmanx,' ');
 						pacmanx--;
@@ -104,7 +113,7 @@ int main(int argc, char *argv[])
 							score = score + 10; //add 10 points each time it collects a pill
 						}
 						
-						if(maze[pacmany][pacmanx-1] == 'O')
+						if(maze[pacmany][pacmanx+1] == 'O')
 						{
 							score = score + 50; //adds 50 points for the power pill
 						}
@@ -127,7 +136,7 @@ int main(int argc, char *argv[])
 							score = score + 10; //add 10 points each time it collects a pill
 						}
 						
-						if(maze[pacmany][pacmanx-1] == 'O')
+						if(maze[pacmany-1][pacmanx] == 'O')
 						{
 							score = score + 50; //adds 50 points for the power pill
 						}
@@ -150,7 +159,7 @@ int main(int argc, char *argv[])
 							score = score + 10; //add 10 points each time it collects a pill
 						}
 						
-						if(maze[pacmany][pacmanx-1] == 'O')
+						if(maze[pacmany+1][pacmanx] == 'O')
 						{
 							score = score + 50; //adds 50 points for the power pill
 						}
@@ -166,11 +175,19 @@ int main(int argc, char *argv[])
 					
 		}
 		
-		if(score == 2150){
-			
-			
+		if(score == 2300){
+			level++;
+			mvwprintw(scoreboard, 4, 1, "Congratulations!");
+			mvwprintw(scoreboard, 5, 1, "Next level: %d", level);
+			wrefresh(scoreboard);
 		}
-	
+		
+		if(lives < 1){
+			mvwprintw(scoreboard, 6, 1, "GAME OVER!");
+			mvwprintw(scoreboard, 7, 1, "No lives left!");
+			wrefresh(scoreboard);
+		}
+		
 	}
 	
 	endwin();			/* End curses mode		  */
