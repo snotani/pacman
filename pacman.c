@@ -63,12 +63,13 @@ int main(int argc, char *argv[])
 	
 	while((key = getch()) != 'q')
 	{
+		
 		if (key == KEY_LEFT || key == KEY_RIGHT || key == KEY_UP || key == KEY_DOWN){
+			mvwprintw(scoreboard, 1, 1, "Score = %d", score);
 			mvwprintw(scoreboard, 1, 1, "Score = %d", score);
 			wrefresh(scoreboard);
 		}	
-			
-			
+				
 		switch(key)
 		{
 			case KEY_LEFT:
@@ -77,13 +78,18 @@ int main(int argc, char *argv[])
 					{
 						if(maze[pacmany][pacmanx-1] == '.')
 						{
-							score++;
+							score = score + 10; //add 10 points each time it collects a pill
+						}
+						
+						if(maze[pacmany][pacmanx-1] == 'O')
+						{
+							score = score + 50; //adds 50 points for the power pill
 						}
 						
 						maze[pacmany][pacmanx] = ' ';
 						mvaddch(pacmany,pacmanx,' ');
 						pacmanx--;
-						mvaddch(pacmany, pacmanx, '<');
+						mvaddch(pacmany, pacmanx, '>');
 						move(pacmany, pacmanx);
 						refresh();
 					}
@@ -95,7 +101,12 @@ int main(int argc, char *argv[])
 					{
 						if(maze[pacmany][pacmanx+1] == '.')
 						{
-							score++;
+							score = score + 10; //add 10 points each time it collects a pill
+						}
+						
+						if(maze[pacmany][pacmanx-1] == 'O')
+						{
+							score = score + 50; //adds 50 points for the power pill
 						}
 						
 						maze[pacmany][pacmanx] = ' ';
@@ -113,13 +124,18 @@ int main(int argc, char *argv[])
 					{
 						if(maze[pacmany-1][pacmanx] == '.')
 						{
-							score++;
+							score = score + 10; //add 10 points each time it collects a pill
+						}
+						
+						if(maze[pacmany][pacmanx-1] == 'O')
+						{
+							score = score + 50; //adds 50 points for the power pill
 						}
 						
 						maze[pacmany][pacmanx] = ' ';
 						mvaddch(pacmany,pacmanx,' ');
 						pacmany--;
-						mvaddch(pacmany, pacmanx, '<');
+						mvaddch(pacmany, pacmanx, 'V');
 						move(pacmany, pacmanx);
 						refresh();
 					}
@@ -131,18 +147,28 @@ int main(int argc, char *argv[])
 					{
 						if(maze[pacmany+1][pacmanx] == '.')
 						{
-							score++;
+							score = score + 10; //add 10 points each time it collects a pill
+						}
+						
+						if(maze[pacmany][pacmanx-1] == 'O')
+						{
+							score = score + 50; //adds 50 points for the power pill
 						}
 						
 						maze[pacmany][pacmanx] = ' ';
 						mvaddch(pacmany,pacmanx,' ');
 						pacmany++;
-						mvaddch(pacmany, pacmanx, '<');
+						mvaddch(pacmany, pacmanx, ACS_UARROW);
 						move(pacmany, pacmanx);
 						refresh();
 					}
 					break;
 					
+		}
+		
+		if(score == 2150){
+			
+			
 		}
 	
 	}
