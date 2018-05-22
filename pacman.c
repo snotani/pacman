@@ -13,7 +13,6 @@ int main(int argc, char *argv[])
 	//WINDOW 
 	int pacmany= 14, pacmanx = 13;
 	int key;
-	//int height = 50, width = 50;
 	
 	char maze[ROWS][COLUMNS] = {
 {'#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#'},
